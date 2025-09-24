@@ -4,11 +4,15 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>PyconFR 2025 - Conférence</title>
+        <meta name="description" content="Description">
+		<meta name="author" content="Matthieu Sauboua-Beneluz">
+
+        <link rel="icon" type="image/x-icon" href="assets/python-logo.png">
 
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
+		<link rel="stylesheet" href="dist/theme/dracula.css">
 
 		<!-- Theme used for syntax highlighted code -->
 		<link rel="stylesheet" href="plugin/highlight/monokai.css">
@@ -16,8 +20,46 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+                <!-- Introduction -->
+                <section data-auto-animate>
+					<h3>Pas d’algo, pas de bug, pas de bug pas de problème. Pas de problème… pas de problème</h3>
+                    <h4 style="color: white">Python et programmation par contrainte</h4>
+
+                    <aside class="notes">
+                        Shhh, these are your private notes 📝
+                    </aside>
+				</section>
+				<section data-auto-animate>
+                    <ul>
+                        <li>Matthieu Sauboua-Beneluz</li>
+                        <li>Dévellopeur back-end</li>
+                    </ul>
+                    <div class="r-stack">
+                        <img class="fragment" src="./assets/petitchat1.jpg" height="400px" />
+                        <img class="fragment" src="./assets/petitchat3.jpg" height="400px" />
+                        <img class="fragment" src="./assets/petitchat4.jpg" height="400px" />
+                        <img class="fragment" src="./assets/petitchat5.jpg" height="400px" />
+                        <img class="fragment" src="./assets/petitchat2.jpg" height="400px" />
+                    </div>
+                </section>
+
+                <!-- Définitions-->
+                <section data-auto-animate data-background="./assets/tldr-cat.gif">
+                    <h1 class="r-fit-text">Définitions</h1>
+                </section>
+
+                <!-- Conclusion-->
+                <section data-auto-animate data-visibility="hidden" data-background="./assets/.gif">
+                    <h1 class="r-fit-text">Conclusion</h1>
+                </section>
+
+                <section data-auto-animate data-background="./assets/cat-questions.gif">
+                    <h1 class="r-fit-text">Des questions ?</h1>
+                </section>
+                <section data-auto-animate>
+                    <img src="./assets/qrcode-linkedin.png" />
+                    <img src="./assets/qrcode-supersolver.png" />
+                </section>
 			</div>
 		</div>
 
@@ -26,13 +68,20 @@
 		<script src="plugin/markdown/markdown.js"></script>
 		<script src="plugin/highlight/highlight.js"></script>
 		<script>
-			// More info about initialization & config:
+			// Initialization & config:
 			// - https://revealjs.com/initialization/
 			// - https://revealjs.com/config/
 			Reveal.initialize({
 				hash: true,
+				slideNumber: true,
 
-				// Learn about plugins: https://revealjs.com/plugins/
+				// Activate the scroll view
+                view: 'scroll',
+
+                // Force the scrollbar to remain visible
+                scrollProgress: true,
+
+				// Plugins: https://revealjs.com/plugins/
 				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
 			});
 		</script>
