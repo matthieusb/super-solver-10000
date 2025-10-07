@@ -21,14 +21,11 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
+                <!-- --------------------------------------------------- -->
                 <!-- Introduction -->
                 <section data-auto-animate>
 					<h3>Pas d’algo, pas de bug, pas de bug pas de problème. Pas de problème… pas de problème</h3>
                     <h4 style="color: white">Python et programmation par contrainte</h4>
-
-                    <aside class="notes">
-                        Shhh, these are your private notes 📝
-                    </aside>
 				</section>
 				<section data-auto-animate>
                     <ul>
@@ -44,6 +41,7 @@
                     </div>
                 </section>
 
+                <!-- --------------------------------------------------- -->
                 <!-- Définitions -->
                 <section data-auto-animate data-background="./assets/tldr-cat.gif">
                     <h1 class="r-fit-text">Définitions</h1>
@@ -69,11 +67,75 @@
                     </aside>
                 </section>
 
-                <section>
+                <section data-auto-animate>
+                    <h3>Exemple: nommer un gouvernement</h3>
 
-
+                    <div class="fragment mermaid" data-fragment-index="0">
+                        <pre>
+                            %%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+                            flowchart TD
+                            A[Vérifier la composition de l'assemblée]
+                        </pre>
+                    </div>
                 </section>
 
+                <section data-auto-animate>
+                    <h3>Exemple: nommer un gouvernement</h3>
+
+                    <div class="current-visible mermaid" data-fragment-index="0">
+                        <pre>
+                            %%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+                            flowchart TD
+                            A[Vérifier la composition de l'assemblée] --> B[Quelle est la majorité ?]
+                        </pre>
+                    </div>
+                </section>
+
+                <section data-auto-animate>
+                    <h3>Exemple: nommer un gouvernement</h3>
+
+                    <div class="mermaid">
+                        <pre>
+                            %%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+                            flowchart TD
+                            A[Vérifier la composition de l'assemblée] --> B[Quelle est la majorité ?]
+                            B -- Gauche --> C[Nommer premier ministre de gauche]
+                        </pre>
+                    </div>
+                </section>
+
+                <section data-auto-animate>
+                    <h3>Exemple: nommer un gouvernement</h3>
+
+                    <div class="mermaid">
+                        <pre>
+                            %%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+                            flowchart TD
+                            A[Vérifier la composition de l'assemblée] --> B[Quelle est la majorité ?]
+                            B -- Gauche --> C[Nommer un/une premier ministre de gauche]
+                            B -- Droite --> D[Nommer un/une premier ministre de droite]
+                            C --> E[Le/La premier ministre nomme un gouvernement]
+                            D --> E
+                        </pre>
+                    </div>
+                </section>
+
+                <section data-auto-animate>
+                    <h3>Exemple: nommer un gouvernement, alternative</h3>
+
+                    <div class="mermaid">
+                        <pre>
+                            %%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+                            flowchart TD
+                            A[Vérifier la composition de l'assemblée] --> B[Quelle est la majorité ?]
+                            B -- Gauche --> C[Nommer un/une premier ministre de droite]
+                            B -- Droite --> C
+                            C --> D[Le/La premier ministre nomme un gouvernement]
+                        </pre>
+                    </div>
+                </section>
+
+                <!-- --------------------------------------------------- -->
                 <!-- Conclusion -->
                 <section data-auto-animate data-visibility="hidden" data-background="./assets/.gif">
                     <h1 class="r-fit-text">Conclusion</h1>
@@ -93,7 +155,9 @@
 		<script src="plugin/notes/notes.js"></script>
 		<script src="plugin/markdown/markdown.js"></script>
 		<script src="plugin/highlight/highlight.js"></script>
-		<script>
+        <!-- Plugin home: https://github.com/zjffun/reveal.js-mermaid-plugin -->
+        <script src="https://cdn.jsdelivr.net/npm/reveal.js-mermaid-plugin@11.6.0/plugin/mermaid/mermaid.js"></script>
+        <script>
 			// Initialization & config:
 			// - https://revealjs.com/initialization/
 			// - https://revealjs.com/config/
@@ -107,8 +171,27 @@
                 // Force the scrollbar to remain visible
                 scrollProgress: true,
 
+                // -- Mermaid plugin
+                mermaid: {
+                    // flowchart: {
+                    //   curve: 'linear',
+                    // },
+                },
+
+                // this plugin config
+                // mermaidPlugin: {
+                //   beforeRender(el) {
+                //     console.log(el);
+                //     // if return false this element will not call mermaid render
+                //   },
+                //
+                //   afterRender(el) {
+                //     console.log(el);
+                //   },
+                // },
+
 				// Plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMermaid ]
 			});
 		</script>
 	</body>
