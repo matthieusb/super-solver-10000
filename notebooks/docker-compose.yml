@@ -1,0 +1,33 @@
+services:
+  jupyter-minimal: # CLI tools + python3 notebook
+    image: quay.io/jupyter/minimal-notebook:latest
+    container_name: jupyter-minimal
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./home/minimal:/home/jovyan/work
+      - ./config/minimal-notebook/jupyter_server_config.py:/home/jovyan/.jupyter/jupyter_server_config.py
+      - ./config/minimal-notebook/jupyter_server_config.json:/home/jovyan/.jupyter/jupyter_server_config.json
+    networks:
+      - jupyter_notebooks
+
+  jupyter-swipl: # prolog
+    ports:
+      - "8889:8888"
+    volumes:
+      - ./home/swipl:/notebooks
+      - jupyter-swipl-kernels:/usr/local/share/jupyter/kernels/jswipl
+      - ./config/swipl-notebook/jupyter_server_config.json:/root/.jupyter/jupyter_server_config.json
+    container_name: jupyter-swipl
+    stdin_open: true
+    tty: true
+    image: gamma749/jupyter-swipl
+    command: run-notebook
+
+
+volumes:
+  jupyter-swipl-kernels:
+
+networks:
+  jupyter_notebooks:
+    driver: bridge
