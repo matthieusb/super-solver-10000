@@ -14,11 +14,9 @@ Launch the notebooks:
 docker compose up
 ```
 
-Notebooks are accessible here:
+Notebooks are accessible here (🔒 Password: `youpi`):
 - Minimal notebook (With Python 3 support): http://localhost:8888
 - Swi-Prolog notebook: http://localhost:8889
-
-> 🔒 Password is `youpi` for both
 
 ## Slides edition/visualization
 

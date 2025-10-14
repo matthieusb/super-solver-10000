@@ -13,10 +13,12 @@
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
 		<link rel="stylesheet" href="dist/theme/dracula.css">
-		<link rel="stylesheet" href="css/custom.css">
 
 		<!-- Theme used for syntax highlighted code -->
 		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+
+        <!-- Custom CSS to apply -->
+        <link rel="stylesheet" href="css/custom.css">
 	</head>
 	<body>
 		<div class="reveal">
@@ -33,9 +35,7 @@
                         <li>Développeur back-end</li>
                     </ul>
                     <div class="r-stack">
-                        <img class="fragment" src="./assets/petitchat1.jpg" height="400px" />
                         <img class="fragment" src="./assets/petitchat3.jpg" height="400px" />
-                        <img class="fragment" src="./assets/petitchat4.jpg" height="400px" />
                         <img class="fragment" src="./assets/petitchat5.jpg" height="400px" />
                         <img class="fragment" src="./assets/petitchat2.jpg" height="400px" />
                     </div>
@@ -121,7 +121,7 @@
                 </section>
 
                 <section data-auto-animate>
-                    <h3>Exemple: nommer un gouvernement, alternative</h3>
+                    <h3>Exemple: nommer un gouvernement, version bugguée</h3>
 
                     <div class="mermaid">
                         <pre>
@@ -135,22 +135,68 @@
                     </div>
                 </section>
 
-                <section data-auto-animate>
-
-
+                <!-- --------------------------------------------------- -->
+                <!-- Probleme numéro 1: le cadenas de Léa -->
+                <section data-auto-animate data-background="./assets/shocket-cat.gif">
+                    <h1 class="r-fit-text">Pas d'algo, pas de bug ?</h1>
                 </section>
 
-                <!-- --------------------------------------------------- -->
-                <!-- TODO -->
+                <section data-auto-animate>
+                    <h1>🔒 Cas nº1: le cadenas de Léa GroCervo</h1>
+                </section>
 
-                <!-- --------------------------------------------------- -->
-                <!-- TODO -->
+                <section data-auto-animate>
+                    <h2>🔒 Cas nº1: le cadenas de Léa GroCervo</h2>
 
-                <!-- --------------------------------------------------- -->
-                <!-- TODO -->
+                    <div class="r-stack">
+                        <ul>
+                            <li>Code à 8 chiffres</li>
+                            <li class="fragment">Somme des deux premiers chiffres est égale à 1</li>
+                            <li class="fragment">Somme des 3ème et 4ème chiffres est égale à 6</li>
+                            <li class="fragment">Somme des 4 derniers chiffres est égale à 9</li>
+                            <li class="fragment">Produit des 1er, 5ème, 7ème et 8ème nombre est égal à 20</li>
+                            <li class="fragment">Division du 4ème chiffre avec le 5ème est égale à la somme </li>
+                        </ul>
 
-                <!-- --------------------------------------------------- -->
-                <!-- TODO -->
+                        <div class="fragment">
+                            <img src="./assets/brain-explosion.gif" height="400px" />
+                        </div>
+                    </div>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>✊ Solution 1: force brute</h2>
+
+                    <pre class="fragment" style="width: 100%">
+                        <code data-trim data-noescape class="language-python">
+                            # combination is a list of size 8
+                            def isCombinationCorrect(combination):
+                                c1, c2, c3, c4, c5, c6, c7, c8 = combination
+
+                                return (c1 + c2 == 1) and (c3 + c4 == 6) and \
+                                (c5 + c6 + c7 + c8 == 9) and (c1 * c5 * c7 * c8 == 20) and \
+                                ((c4 / c5) == c1 + c7)
+                        </code>
+                    </pre>
+
+                    <pre class="fragment" style="width: 100%">
+                        <code data-trim data-noescape class="language-python">
+                            def challengeAllCombinations():
+                                for c1 in range(10):
+                                    for c2 in range(10):
+                                        for c3 in range(10):
+                                            for c4 in range(10):
+                                                for c5 in range(10):
+                                                    for c6 in range(10):
+                                                        for c7 in range(10):
+                                                            for c8 in range(10):
+                                                                code = list((c1, c2, c3, c4, c5, c6, c7, c8))
+                                                                correct = isCombinationCorrect(code)
+                                                                if (correct):
+                                                                    return "".join(map(str, code))
+                        </code>
+                    </pre>
+                </section>
 
                 <!-- --------------------------------------------------- -->
                 <!-- TODO -->
