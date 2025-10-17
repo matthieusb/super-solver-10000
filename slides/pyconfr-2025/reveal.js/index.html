@@ -168,7 +168,7 @@
                     <h2>✊ Solution 1: force brute</h2>
 
                     <pre class="fragment" style="width: 100%">
-                        <code data-trim data-noescape class="language-python">
+                        <code data-trim data-noescape class="language-python" data-line-numbers="3-3|5-7">
                             # combination is a list of size 8
                             def isCombinationCorrect(combination):
                                 c1, c2, c3, c4, c5, c6, c7, c8 = combination
@@ -183,8 +183,8 @@
                 <section data-auto-animate>
                     <h2>✊ Solution 1: force brute</h2>
 
-                    <pre style="width: 100%">
-                        <code data-trim data-noescape class="language-python">
+                    <pre style="margin-left: -100px; width: 1150px">
+                        <code data-trim data-noescape class="language-python" data-line-numbers="2-2|10-11|12-13">
                             def challengeAllCombinations():
                                 for c1 in range(10):
                                     for c2 in range(10):
@@ -239,11 +239,43 @@
                 </section>
 
                 <section data-auto-animate>
-                    <h2>⛓️ Solution 2: programmation par contraintes</h2>
+                    <h4>🟰 Solution 2: programmation par contraintes</h4>
 
-                    <pre class="fragment" style="width: 100%">
+                    <pre style="margin-left -50px; width: 1050px; height: 630px">
+                        <code data-trim data-noescape class="language-python" data-line-numbers="0-1|3-3|4-4|6-6|8-8|10-14|16-17|18-20|21-21">
+                            from z3 import *
+
+                            codeNumbers = [Int(f'c{i}') for i in range(1, 9)]
+                            c1, c2, c3, c4, c5, c6, c7, c8 = codeNumbers
+
+                            solver = Solver()
+
+                            solver.add([And(0 <= c, c <= 9) for c in codeNumbers])
+
+                            solver.add(c1 + c2 == 1)
+                            solver.add(c3 + c4 == 6)
+                            solver.add(c5 + c6 + c7 + c8 == 9)
+                            solver.add(c1 * c5 * c7 * c8 == 20)
+                            solver.add((c4 / c5) == c1 + c7)
+
+                            solutions = []
+                            while solver.check() == sat:
+                                model = solver.model()
+                                solution = tuple(model.eval(c).as_long() for c in codeNumbers)
+                                solutions.append(solution)
+                                solver.add(Or([codeNumbers[i] != solution[i] for i in range(8)]))
+
+                            solutions
+                        </code>
+                    </pre>
+                </section>
+
+                <section data-auto-animate>
+                    <h3>🟰 Solution 2: programmation par contraintes</h3>
+
+                    <pre>
                         <code data-trim data-noescape class="language-python">
-                            # TODO
+                            [(1, 0, 0, 6, 2, 0, 2, 5)]
                         </code>
                     </pre>
                 </section>
