@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>PyconFR 2025 - Conférence</title>
+        <meta name="description" content="Description">
+		<meta name="author" content="Matthieu Sauboua-Beneluz">
+
+        <link rel="icon" type="image/x-icon" href="assets/python-logo.png">
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/dracula.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+
+        <!-- Custom CSS to apply -->
+        <link rel="stylesheet" href="css/custom.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+                <!-- --------------------------------------------------- -->
+                <!-- Introduction -->
+                <section data-auto-animate>
+					<h3>Pas d’algo, pas de bug, pas de bug pas de problème. Pas de problème… pas de problème</h3>
+                    <h4 style="color: white">Python et programmation par contrainte</h4>
+				</section>
+				<section data-auto-animate>
+                    <ul>
+                        <li>Matthieu Sauboua-Beneluz</li>
+                        <li>Développeur back-end</li>
+                    </ul>
+                    <div class="r-stack">
+                        <img class="fragment" src="./assets/petitchat3.jpg" height="400px" />
+                        <img class="fragment" src="./assets/petitchat5.jpg" height="400px" />
+                        <img class="fragment" src="./assets/petitchat2.jpg" height="400px" />
+                    </div>
+                </section>
+
+                <!-- --------------------------------------------------- -->
+                <!-- Définition: Algorithme -->
+                <section data-auto-animate data-background="./assets/tldr-cat.gif">
+                    <h1 class="r-fit-text">Définition</h1>
+                </section>
+
+                <section data-auto-animate>
+                    <h1>Algorithme</h1>
+                </section>
+
+                <section data-auto-animate>
+                    <blockquote>
+                        [...] Suite finie et non ambiguë d'instructions et d’opérations permettant de résoudre une classe de problèmes.
+                        <p><cite>Wikipedia</cite></p>
+                    </blockquote>
+
+                    <blockquote class="fragment">
+                        Méthode générale pour résoudre un ensemble de problèmes, qui, appliquée systématiquement et d’une manière automatisée à une donnée ou à un ensemble de données, [...] finit par fournir une solution [...]
+                        <p><cite>Wiktionnaire</cite></p>
+                    </blockquote>
+
+                    <aside class="notes">
+                        Définition Wiktionnaire: Méthode générale pour résoudre un ensemble de problèmes, qui, appliquée systématiquement et d’une manière automatisée à une donnée ou à un ensemble de données, et répétant un certain nombre de fois un procédé élémentaire, finit par fournir une solution, un classement, une mise en avant d’un phénomène, d’un profil, ou de détecter une fraude.
+                    </aside>
+                </section>
+
+                <section data-auto-animate>
+                    <h3>Exemple: nommer un gouvernement</h3>
+
+                    <div class="fragment mermaid" data-fragment-index="0">
+                        <pre>
+                            %%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+                            flowchart TD
+                            A[Vérifier la composition de l'assemblée]
+                        </pre>
+                    </div>
+                </section>
+
+                <section data-auto-animate>
+                    <h3>Exemple: nommer un gouvernement</h3>
+
+                    <div class="current-visible mermaid" data-fragment-index="0">
+                        <pre>
+                            %%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+                            flowchart TD
+                            A[Vérifier la composition de l'assemblée] --> B[Quelle est la majorité ?]
+                        </pre>
+                    </div>
+                </section>
+
+                <section data-auto-animate>
+                    <h3>Exemple: nommer un gouvernement</h3>
+
+                    <div class="mermaid">
+                        <pre>
+                            %%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+                            flowchart TD
+                            A[Vérifier la composition de l'assemblée] --> B[Quelle est la majorité ?]
+                            B -- Gauche --> C[Nommer premier ministre de gauche]
+                        </pre>
+                    </div>
+                </section>
+
+                <section data-auto-animate>
+                    <h3>Exemple: nommer un gouvernement</h3>
+
+                    <div class="mermaid">
+                        <pre>
+                            %%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+                            flowchart TD
+                            A[Vérifier la composition de l'assemblée] --> B[Quelle est la majorité ?]
+                            B -- Gauche --> C[Nommer un/une premier ministre de gauche]
+                            B -- Droite --> D[Nommer un/une premier ministre de droite]
+                            C --> E[Le/La premier ministre nomme un gouvernement]
+                            D --> E
+                        </pre>
+                    </div>
+                </section>
+
+                <section data-auto-animate>
+                    <h3>Exemple: nommer un gouvernement, version bugguée</h3>
+
+                    <div class="mermaid">
+                        <pre>
+                            %%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+                            flowchart TD
+                            A[Vérifier la composition de l'assemblée] --> B[Quelle est la majorité ?]
+                            B -- Gauche --> C[Nommer un/une premier ministre de droite]
+                            B -- Droite --> C
+                            C --> D[Le/La premier ministre nomme un gouvernement]
+                        </pre>
+                    </div>
+                </section>
+
+                <!-- --------------------------------------------------- -->
+                <!-- Probleme numéro 1: le cadenas de Léa GroCervo -->
+                <section data-auto-animate data-background="./assets/shocket-cat.gif">
+                    <h1 class="r-fit-text">Pas d'algo, pas de bug ?</h1>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>🔒 Le cadenas de Léa GroCervo</h2>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>🔒 Le cadenas de Léa GroCervo</h2>
+
+                    <div class="r-stack">
+                        <ul>
+                            <li>Code à 8 chiffres</li>
+                            <li class="fragment">Somme des deux premiers chiffres est égale à 1</li>
+                            <li class="fragment">Somme des 3ème et 4ème chiffres est égale à 6</li>
+                            <li class="fragment">Somme des 4 derniers chiffres est égale à 9</li>
+                            <li class="fragment">Produit des 1er, 5ème, 7ème et 8ème nombre est égal à 20</li>
+                            <li class="fragment">Division du 4ème chiffre avec le 5ème est égale à la somme </li>
+                        </ul>
+
+                        <div class="fragment">
+                            <img src="./assets/brain-explosion.gif" height="400px" />
+                        </div>
+                    </div>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>✊ Solution 1: force brute</h2>
+
+                    <pre class="fragment" style="width: 100%">
+                        <code data-trim data-noescape class="language-python" data-line-numbers="3-3|5-7">
+                            # combination is a list of size 8
+                            def isCombinationCorrect(combination):
+                                c1, c2, c3, c4, c5, c6, c7, c8 = combination
+
+                                return (c1 + c2 == 1) and (c3 + c4 == 6) and \
+                                (c5 + c6 + c7 + c8 == 9) and (c1 * c5 * c7 * c8 == 20) and \
+                                ((c4 / c5) == c1 + c7)
+                        </code>
+                    </pre>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>✊ Solution 1: force brute</h2>
+
+                    <pre style="margin-left: -100px; width: 1150px">
+                        <code data-trim data-noescape class="language-python" data-line-numbers="2-2|10-11|12-13">
+                            def challengeAllCombinations():
+                                for c1 in range(10):
+                                    for c2 in range(10):
+                                        for c3 in range(10):
+                                            for c4 in range(10):
+                                                for c5 in range(10):
+                                                    for c6 in range(10):
+                                                        for c7 in range(10):
+                                                            for c8 in range(10):
+                                                                code = list((c1, c2, c3, c4, c5, c6, c7, c8))
+                                                                correct = isCombinationCorrect(code)
+                                                                if (correct):
+                                                                    return "".join(map(str, code))
+                        </code>
+                    </pre>
+
+                    <aside class="notes">
+                        "sat" => satisfiable
+                        "unsat" si pas de solution trouvée => unsatisfiable
+                    </aside>
+                </section>
+
+                <section data-auto-animate>
+                    <h3>✊ Solution 1: force brute</h3>
+
+                    <pre>
+                        <code data-trim data-noescape class="language-python">
+                            '10062025'
+                        </code>
+                    </pre>
+                </section>
+
+                <!-- --------------------------------------------------- -->
+                <!-- La programmation par contraintes -->
+                <section data-auto-animate data-background="./assets/cat-no-problem.gif">
+                    <h1 class="r-fit-text">Pas de bug, pas de problème</h1>
+                </section>
+
+                <section data-auto-animate data-background="./assets/tldr-cat.gif">
+                    <h1 class="r-fit-text">Définition</h1>
+                </section>
+
+                <section data-auto-animate>
+                    <h1>Programmation par contraintes</h1>
+                </section>
+
+                <section data-auto-animate>
+                    <blockquote>
+                        [...] paradigme [...] permettant de résoudre des problèmes combinatoires de grande taille tels que les problèmes de planification et d'ordonnancement
+                        <p><cite>Wikipedia</cite></p>
+                    </blockquote>
+
+                    <blockquote class="fragment">
+                        [...] de toutes les approches [...], la programmation par contraintes se rapproche le plus de l'idéal : l'utilisateur décrit le problème, l'ordinateur le résout.
+                        <p><cite>Eugene C. Freuder</cite></p>
+                    </blockquote>
+
+                    <aside class="notes">
+                        Proche de la programmation logique que certains ont peut-être déjà abordée pendant leur études
+
+                        E Freuder: Professeur émérite de l'Université de Cork, qui a écrit sur la programmation par contrainte et l'IA
+                    </aside>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>🔒 Le cadenas de Léa GroCervo</h2>
+                </section>
+
+                <section data-auto-animate>
+                    <h4>🟰 Solution 2: programmation par contraintes</h4>
+
+                    <pre style="margin-left: -50px; width: 1050px; height: 630px">
+                        <code data-trim data-noescape class="language-python" data-line-numbers="0-1|3-3|4-4|6-6|8-8|10-14|16-17|18-20|21-21">
+                            from z3 import *
+
+                            codeNumbers = [Int(f'c{i}') for i in range(1, 9)]
+                            c1, c2, c3, c4, c5, c6, c7, c8 = codeNumbers
+
+                            solver = Solver()
+
+                            solver.add([And(0 <= c, c <= 9) for c in codeNumbers])
+
+                            solver.add(c1 + c2 == 1)
+                            solver.add(c3 + c4 == 6)
+                            solver.add(c5 + c6 + c7 + c8 == 9)
+                            solver.add(c1 * c5 * c7 * c8 == 20)
+                            solver.add((c4 / c5) == c1 + c7)
+
+                            solutions = []
+                            while solver.check() == sat:
+                                model = solver.model()
+                                solution = tuple(model.eval(c).as_long() for c in codeNumbers)
+                                solutions.append(solution)
+                                solver.add(Or([codeNumbers[i] != solution[i] for i in range(8)]))
+
+                            solutions
+                        </code>
+                    </pre>
+                </section>
+
+                <section data-auto-animate>
+                    <h3>🟰 Solution 2: programmation par contraintes</h3>
+
+                    <pre>
+                        <code data-trim data-noescape class="language-python">
+                            [(1, 0, 0, 6, 2, 0, 2, 5)]
+                        </code>
+                    </pre>
+                </section>
+
+                <!-- --------------------------------------------------- -->
+                <!-- Problème numéro 2: les dames de Magnes Carlsun -->
+                <section data-auto-animate>
+                    <h2>♟️ Les dames de Magnes Carlsun</h2>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>♟️ Les dames de Magnes Carlsun</h2>
+
+                    <ul>
+                        <li>Échiquier de 8 x 8 cases</li>
+                        <li class="fragment">8 dames à placer</li>
+                        <li class="fragment">Les dames ne doivent pas se menacer mutuellement</li>
+                    </ul>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>♟️ Les dames de Magnes Carlsun</h2>
+
+                    <div>
+                        <img src="./assets/queens-solution-example1.png" height="400px"/>
+                        <img src="./assets/queens-solution-example2.png" height="400px"/>
+                    </div>
+                </section>
+
+                <section data-auto-animate>
+                    <h4>♟️ Les dames de Magnes Carlsun</h4>
+
+                    <pre style="margin-left: -200px; width: 1350px; height: 640px">
+                        <code data-trim data-noescape class="language-python" data-line-numbers="3-3|5-5|6-6|7-10|12-15|17-17|18-18|19-20|21-23|24-24">
+                            from z3 import *
+
+                            Queens = [ Int(f"Q_{i+1}") for i in range(8) ]
+
+                            eachQueenIsInAColumn = [ And(1 <= Queens[i], Queens[i] <= 8) for i in range(8) ]
+                            atMostOneQueenPerColumn = [ Distinct(Queens) ]
+                            queensShouldNotThreatenEachOtherOnDiagonals = [
+                                If(i == j, True, And(Queens[i] - Queens[j] != i - j, Queens[i] - Queens[j] != j - i))
+                                for i in range(8) for j in range(i)
+                            ]
+
+                            solver = Solver()
+                            solver.add(eachQueenIsInAColumn)
+                            solver.add(atMostOneQueenPerColumn)
+                            solver.add(queensShouldNotThreatenEachOtherOnDiagonals)
+
+                            solutions = []
+                            while solver.check() == sat:
+                                solution = solver.model()
+                                solutions.append(solution)
+                                block = []
+                                for var in solution:
+                                      block.append(var() != solution[var])
+                                solver.add(Or(block))
+                        </code>
+                    </pre>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>♟️ Les dames de Magnes Carlsun</h2>
+
+                    <pre style="width: 970px">
+                        <code data-trim data-noescape class="language-python">
+                            Number of solutions found: 92
+                            [Q_3 = 8, Q_1 = 4, Q_7 = 5, Q_8 = 7, Q_5 = 1, Q_4 = 6, Q_2 = 2, Q_6 = 3]
+                            [Q_3 = 7, Q_1 = 3, Q_7 = 4, Q_5 = 8, Q_4 = 5, Q_8 = 6, Q_2 = 1, Q_6 = 2]
+                            [Q_3 = 8, Q_1 = 4, Q_7 = 3, Q_5 = 7, Q_4 = 5, Q_8 = 6, Q_2 = 2, Q_6 = 1]
+                            [Q_3 = 2, Q_1 = 7, Q_7 = 3, Q_5 = 8, Q_4 = 5, Q_8 = 6, Q_2 = 4, Q_6 = 1]
+                            [Q_3 = 2, Q_1 = 3, Q_7 = 1, Q_5 = 6, Q_4 = 8, Q_8 = 5, Q_2 = 7, Q_6 = 4]
+                            [Q_3 = 8, Q_1 = 5, Q_7 = 6, Q_5 = 7, Q_4 = 4, Q_8 = 2, Q_2 = 3, Q_6 = 1]
+                            [Q_3 = 1, Q_1 = 6, Q_7 = 7, Q_5 = 8, Q_4 = 5, Q_8 = 3, Q_2 = 4, Q_6 = 2]
+                            [Q_3 = 4, Q_1 = 1, Q_7 = 5, Q_5 = 8, Q_4 = 6, Q_8 = 3, Q_2 = 7, Q_6 = 2]
+                            [Q_3 = 5, Q_1 = 4, Q_7 = 7, Q_5 = 6, Q_4 = 8, Q_8 = 2, Q_2 = 1, Q_6 = 3]
+                            [Q_3 = 2, Q_1 = 3, Q_7 = 7, Q_5 = 6, Q_4 = 8, Q_8 = 1, Q_2 = 5, Q_6 = 4]
+                            ...
+                        </code>
+                    </pre>
+                </section>
+
+                <section data-auto-animate>
+                    <h3>♟️ Les dames de Magnes Carlsun</h3>
+
+                    <div>
+                        <img src="./assets/queens-solver-solution1.png" height="285px"/>
+                        <img src="./assets/queens-solver-solution2.png" height="285px"/>
+                    </div>
+                    <div style="margin-top: -40px;">
+                        <img src="./assets/queens-solver-solution3.png" height="285px"/>
+                        <img src="./assets/queens-solver-solution4.png" height="285px"/>
+                    </div>
+                </section>
+
+                <!-- --------------------------------------------------- -->
+                <section data-auto-animate>
+                    <h2>♟️ Les packages et dépendances de Jean-Pierre Torvalds</h2>
+
+                    <ul>
+                        <li>Jean-Pierre souhaite installer un package</li>
+                        <li class="fragment">Un package a des dépendances</li>
+                        <li class="fragment">Certaines dépendances peuvent causer des conflits</li>
+                        <li class="fragment">On souhaite obtenir les packages à installer</li>
+                    </ul>
+                </section>
+
+                <section data-auto-animate>
+                    <h3>♟️ Les packages et dépendances de Jean-Pierre Torvalds</h3>
+
+                    <pre>
+                        <code data-trim data-noescape class="language-python" data-line-numbers="1-1|2-3|4-5|1-5">
+                            def DependsOn(pack, deps):
+                                if is_expr(deps):
+                                    return Implies(pack, deps)
+                                else:
+                                    return And([ Implies(pack, dep) for dep in deps ])
+                        </code>
+                    </pre>
+
+                    <pre class="fragment">
+                        <code data-trim data-noescape class="language-python">
+                            def Conflict(*packs):
+                                return Or([ Not(pack) for pack in packs ])
+                        </code>
+                    </pre>
+                </section>
+
+                <section data-auto-animate>
+                    <h3>♟️ Les packages et dépendances de Jean-Pierre Torvalds</h3>
+
+                    <pre>
+                        <code data-trim data-noescape class="language-python" data-line-numbers="1-3|4-12">
+                            def install_check(*problem):
+                                solver = Solver()
+                                solver.add(*problem)
+                                if solver.check() == sat:
+                                    model = solver.model()
+                                    solution = []
+                                    for x in model:
+                                        if is_true(model[x]):
+                                            solution.append(x())
+                                    print (solution)
+                                else:
+                                    print ("invalid installation profile")
+                        </code>
+                    </pre>
+                </section>
+
+                <section data-auto-animate>
+                    <h3>♟️ Les packages et dépendances de Jean-Pierre Torvalds</h3>
+                    <pre style="width: 950px">
+                        <code data-trim data-noescape class="language-python" data-line-numbers="6-6|2-3|4-5|1-6">
+                            print("Check for installation capability of gcc and python3-full")
+                            install_check(DependsOn(gcc, [gnuBinutils, buildEssential]),
+                                          DependsOn(buildEssential, gnuBinutils),
+                                          Conflict(gzip, gzipCrazy),
+                                          Conflict(gnuBinutils, gnuBinutilsWeird),
+                                          gcc, python3Full)
+                        </code>
+                    </pre>
+                    <pre class="fragment" style="width: 950px">
+                        <code data-trim data-noescape class="language-python">
+                            Check for installation capability of gcc and python3-full
+                            [gcc, python3Full, gnuBinutils, buildEssential]
+                        </code>
+                    </pre>
+                </section>
+
+                <section data-auto-animate>
+                    <h3>♟️ Les packages et dépendances de Jean-Pierre Torvalds</h3>
+                    <pre style="width: 970px">
+                        <code data-trim data-noescape class="language-python" data-line-numbers="6-6|2-3|4-5|1-6">
+                            print("Check for installation capability of gcc and gnu-binutils-weird")
+                            install_check(DependsOn(gcc, [gnuBinutils, buildEssential]),
+                                          DependsOn(buildEssential, gnuBinutils),
+                                          Conflict(gzip, gzipCrazy),
+                                          Conflict(gnuBinutils, gnuBinutilsWeird),
+                                          gcc, gnuBinutilsWeird)
+                        </code>
+                    </pre>
+                    <pre class="fragment" style="width: 970px">
+                        <code data-trim data-noescape class="language-python">
+                            Check for installation capability of gcc and gnu-binutils-weird
+                            invalid installation profile
+                        </code>
+                    </pre>
+                </section>
+
+                <!-- --------------------------------------------------- -->
+                <!-- Conclusion -->
+                <section data-auto-animate data-background="./assets/problem-solved.gif">
+                    <h1 class="r-fit-text">Pas de problème, pas de problème</h1>
+                </section>
+
+                <section data-auto-animate>
+                    <h2>Avec les solveurs de contraintes, plus de problèmes ?</h2>
+
+                    <ul>
+                        <li class="fragment">Un outil pratique pour des cas spécifiques</li>
+                        <li class="fragment">Un coût d'entrée important</li>
+                        <li class="fragment">Plusieurs solveurs à tester</li>
+                    </ul>
+                </section>
+
+                <section data-auto-animate>
+                    <div class="r-stack">
+                        <img src="./assets/padlock.gif" height="400px" />
+                        <img class="fragment" src="./assets/chess-freak-out.gif" height="500px" />
+                        <img class="fragment" src="./assets/money.gif" height="550px" />
+                    </div>
+                </section>
+
+                <section data-auto-animate>
+                    <img src="./assets/qrcode-linkedin.png" height="330px" />
+                    <img src="./assets/qrcode-supersolver.png" height="330px" />
+                    <img src="./assets/qrcode-thomasv.png" height="330px" />
+                </section>
+
+                <section data-auto-animate data-background="./assets/cat-questions.gif">
+                    <h1 class="r-fit-text">Des questions ?</h1>
+                </section>
+
+                <section data-auto-animate>
+                    <img src="./assets/qrcode-linkedin.png" height="330px" />
+                    <img src="./assets/qrcode-supersolver.png" height="330px" />
+                    <img src="./assets/qrcode-thomasv.png" height="330px" />
+                </section>
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+        <!-- Plugin home: https://github.com/zjffun/reveal.js-mermaid-plugin -->
+        <script src="https://cdn.jsdelivr.net/npm/reveal.js-mermaid-plugin@11.6.0/plugin/mermaid/mermaid.js"></script>
+        <script>
+			// Initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				slideNumber: true,
+
+				// Activate the scroll view
+                view: 'scroll',
+
+                // Force the scrollbar to remain visible
+                scrollProgress: true,
+
+                // -- Mermaid plugin
+                mermaid: {
+                    // flowchart: {
+                    //   curve: 'linear',
+                    // },
+                },
+                // this plugin config
+                // mermaidPlugin: {
+                //   beforeRender(el) {
+                //     console.log(el);
+                //     // if return false this element will not call mermaid render
+                //   },
+                //
+                //   afterRender(el) {
+                //     console.log(el);
+                //   },
+                // },
+
+				// Plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMermaid ]
+			});
+		</script>
+	</body>
+</html>
