@@ -323,8 +323,8 @@
                 <section data-auto-animate>
                     <h4>♟️ Les dames de Magnes Carlsun</h4>
 
-                    <pre style="margin-left: -230px; width: 1400px; height: 640px">
-                        <code data-trim data-noescape class="language-python" data-line-numbers="3-3|5-5|6-6|7-10|12-15|17-24">
+                    <pre style="margin-left: -200px; width: 1350px; height: 640px">
+                        <code data-trim data-noescape class="language-python" data-line-numbers="3-3|5-5|6-6|7-10|12-15|17-17|18-18|19-20|21-23|24-24">
                             from z3 import *
 
                             Queens = [ Int(f"Q_{i+1}") for i in range(8) ]
@@ -388,7 +388,98 @@
                 </section>
 
                 <!-- --------------------------------------------------- -->
-                <!-- TODO probleme numéro 3 -->
+                <section data-auto-animate>
+                    <h2>♟️ Les packages et dépendances de Jean-Pierre Torvalds</h2>
+
+                    <ul>
+                        <li>Jean-Pierre souhaite installer un package</li>
+                        <li class="fragment">Un package a des dépendances</li>
+                        <li class="fragment">Certaines dépendances peuvent causer des conflits</li>
+                        <li class="fragment">On souhaite obtenir les packages à installer</li>
+                    </ul>
+                </section>
+
+                <section data-auto-animate>
+                    <h3>♟️ Les packages et dépendances de Jean-Pierre Torvalds</h3>
+
+                    <pre>
+                        <code data-trim data-noescape class="language-python" data-line-numbers="1-1|2-3|4-5|1-5">
+                            def DependsOn(pack, deps):
+                                if is_expr(deps):
+                                    return Implies(pack, deps)
+                                else:
+                                    return And([ Implies(pack, dep) for dep in deps ])
+                        </code>
+                    </pre>
+
+                    <pre class="fragment">
+                        <code data-trim data-noescape class="language-python">
+                            def Conflict(*packs):
+                                return Or([ Not(pack) for pack in packs ])
+                        </code>
+                    </pre>
+                </section>
+
+                <section data-auto-animate>
+                    <h3>♟️ Les packages et dépendances de Jean-Pierre Torvalds</h3>
+
+                    <pre>
+                        <code data-trim data-noescape class="language-python" data-line-numbers="1-3|4-12">
+                            def install_check(*problem):
+                                solver = Solver()
+                                solver.add(*problem)
+                                if solver.check() == sat:
+                                    model = solver.model()
+                                    solution = []
+                                    for x in model:
+                                        if is_true(model[x]):
+                                            solution.append(x())
+                                    print (solution)
+                                else:
+                                    print ("invalid installation profile")
+                        </code>
+                    </pre>
+                </section>
+
+                <section data-auto-animate>
+                    <h3>♟️ Les packages et dépendances de Jean-Pierre Torvalds</h3>
+                    <pre style="width: 950px">
+                        <code data-trim data-noescape class="language-python" data-line-numbers="6-6|2-3|4-5|1-6">
+                            print("Check for installation capability of gcc and python3-full")
+                            install_check(DependsOn(gcc, [gnuBinutils, buildEssential]),
+                                          DependsOn(buildEssential, gnuBinutils),
+                                          Conflict(gzip, gzipCrazy),
+                                          Conflict(gnuBinutils, gnuBinutilsWeird),
+                                          gcc, python3Full)
+                        </code>
+                    </pre>
+                    <pre class="fragment" style="width: 950px">
+                        <code data-trim data-noescape class="language-python">
+                            Check for installation capability of gcc and python3-full
+                            [gcc, python3Full, gnuBinutils, buildEssential]
+                        </code>
+                    </pre>
+                </section>
+
+                <section data-auto-animate>
+                    <h3>♟️ Les packages et dépendances de Jean-Pierre Torvalds</h3>
+                    <pre style="width: 970px">
+                        <code data-trim data-noescape class="language-python" data-line-numbers="6-6|2-3|4-5|1-6">
+                            print("Check for installation capability of gcc and gnu-binutils-weird")
+                            install_check(DependsOn(gcc, [gnuBinutils, buildEssential]),
+                                          DependsOn(buildEssential, gnuBinutils),
+                                          Conflict(gzip, gzipCrazy),
+                                          Conflict(gnuBinutils, gnuBinutilsWeird),
+                                          gcc, gnuBinutilsWeird)
+                        </code>
+                    </pre>
+                    <pre class="fragment" style="width: 970px">
+                        <code data-trim data-noescape class="language-python">
+                            Check for installation capability of gcc and gnu-binutils-weird
+                            invalid installation profile
+                        </code>
+                    </pre>
+                </section>
 
                 <!-- --------------------------------------------------- -->
                 <!-- Conclusion -->
@@ -397,10 +488,20 @@
                 </section>
 
                 <section data-auto-animate>
+                    <h2>Avec les solveurs de contraintes, plus de problèmes ?</h2>
+
+                    <ul>
+                        <li class="fragment">Un outil pratique pour des cas spécifiques</li>
+                        <li class="fragment">Un coût d'entrée important</li>
+                        <li class="fragment">Plusieurs solveurs à tester</li>
+                    </ul>
+                </section>
+
+                <section data-auto-animate>
                     <div class="r-stack">
                         <img src="./assets/padlock.gif" height="400px" />
                         <img class="fragment" src="./assets/chess-freak-out.gif" height="500px" />
-                        <!-- TODO ajouter gif mariage si on l'a développé -->
+                        <img class="fragment" src="./assets/money.gif" height="550px" />
                     </div>
                 </section>
 
