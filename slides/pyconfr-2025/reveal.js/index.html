@@ -170,7 +170,7 @@
                     <pre class="fragment" style="width: 100%">
                         <code data-trim data-noescape class="language-python" data-line-numbers="3-3|5-7">
                             # combination is a list of size 8
-                            def isCombinationCorrect(combination):
+                            def is_combination_correct(combination):
                                 c1, c2, c3, c4, c5, c6, c7, c8 = combination
 
                                 return (c1 + c2 == 1) and (c3 + c4 == 6) and \
@@ -185,7 +185,7 @@
 
                     <pre style="margin-left: -100px; width: 1150px">
                         <code data-trim data-noescape class="language-python" data-line-numbers="2-2|10-11|12-13">
-                            def challengeAllCombinations():
+                            def challenge_all_combinations():
                                 for c1 in range(10):
                                     for c2 in range(10):
                                         for c3 in range(10):
@@ -195,7 +195,7 @@
                                                         for c7 in range(10):
                                                             for c8 in range(10):
                                                                 code = list((c1, c2, c3, c4, c5, c6, c7, c8))
-                                                                correct = isCombinationCorrect(code)
+                                                                correct = is_combination_correct(code)
                                                                 if (correct):
                                                                     return "".join(map(str, code))
                         </code>
@@ -404,7 +404,7 @@
 
                     <pre>
                         <code data-trim data-noescape class="language-python" data-line-numbers="1-1|2-3|4-5|1-5">
-                            def DependsOn(pack, deps):
+                            def depends_on(pack, deps):
                                 if is_expr(deps):
                                     return Implies(pack, deps)
                                 else:
@@ -414,7 +414,7 @@
 
                     <pre class="fragment">
                         <code data-trim data-noescape class="language-python">
-                            def Conflict(*packs):
+                            def conflict(*packs):
                                 return Or([ Not(pack) for pack in packs ])
                         </code>
                     </pre>
@@ -446,10 +446,10 @@
                     <pre style="width: 950px">
                         <code data-trim data-noescape class="language-python" data-line-numbers="6-6|2-3|4-5|1-6">
                             print("Check for installation capability of gcc and python3-full")
-                            install_check(DependsOn(gcc, [gnuBinutils, buildEssential]),
-                                          DependsOn(buildEssential, gnuBinutils),
-                                          Conflict(gzip, gzipCrazy),
-                                          Conflict(gnuBinutils, gnuBinutilsWeird),
+                            install_check(depends_on(gcc, [gnuBinutils, buildEssential]),
+                                          depends_on(buildEssential, gnuBinutils),
+                                          conflict(gzip, gzipCrazy),
+                                          conflict(gnuBinutils, gnuBinutilsWeird),
                                           gcc, python3Full)
                         </code>
                     </pre>
@@ -466,10 +466,10 @@
                     <pre style="width: 990px">
                         <code data-trim data-noescape class="language-python" data-line-numbers="6-6|2-3|4-5|1-6">
                             print("Check for installation capability of gcc and gnu-binutils-weird")
-                            install_check(DependsOn(gcc, [gnuBinutils, buildEssential]),
-                                          DependsOn(buildEssential, gnuBinutils),
-                                          Conflict(gzip, gzipCrazy),
-                                          Conflict(gnuBinutils, gnuBinutilsWeird),
+                            install_check(depends_on(gcc, [gnuBinutils, buildEssential]),
+                                          depends_on(buildEssential, gnuBinutils),
+                                          conflict(gzip, gzipCrazy),
+                                          conflict(gnuBinutils, gnuBinutilsWeird),
                                           gcc, gnuBinutilsWeird)
                         </code>
                     </pre>
